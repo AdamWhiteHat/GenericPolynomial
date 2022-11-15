@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net45;net46;net48;netstandard2.1;netcoreapp3.1;net5.0-windows</TargetFrameworks>
+		<Platforms>x64</Platforms>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Title>ExtendedArithmetic.GenericPolynomial</Title>
+		<Product>ExtendedArithmetic.GenericPolynomial</Product>
+		<AssemblyName>ExtendedArithmetic.GenericPolynomial</AssemblyName>
+		<AssemblyTitle>ExtendedArithmetic.GenericPolynomial</AssemblyTitle>
+		<PackageId>ExtendedArithmetic.GenericPolynomial</PackageId>
+		<Description>Library to perform symbolic polynomial arithmetic on generic numeric types.</Description>
+		<Authors>Adam White</Authors>
+		<Company>Adam White</Company>
+		<Copyright>Made by Adam White</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>generics math mathematics polynomials polynomial-arithmetic polynomial symbolic arithmetic arbitrary-precision numerics numbers biginteger legendre-symbol tonelli-shanks gcd modulus square-root csharp</PackageTags>
+		<PackageProjectUrl>https://www.nuget.org/packages/ExtendedArithmetic.GenericPolynomial</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/AdamWhiteHat/GenericPolynomial</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+
+		<Version>$([System.DateTime]::Now.ToString("yyyy."$([System.DateTime]::Now.DayOfYear)".HHmm"))</Version>
+		<AssemblyVersion>$([System.DateTime]::Now.ToString("yyyy."$([System.DateTime]::Now.DayOfYear)".HHmm"))</AssemblyVersion>
+		<FileVersion>$([System.DateTime]::Now.ToString("yyyy."$([System.DateTime]::Now.DayOfYear)".HHmm"))</FileVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="TestGenericPolynomial\**" />
+		<EmbeddedResource Remove="TestGenericPolynomial\**" />
+		<None Remove="TestGenericPolynomial\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+
+</Project>
