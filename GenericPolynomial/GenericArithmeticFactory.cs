@@ -9,12 +9,12 @@ using System.Runtime.CompilerServices;
 
 namespace ExtendedArithmetic.Internal
 {
-	internal static class GenericArithmeticFactory<T>
+	public static class GenericArithmeticFactory<T>
 	{
-		internal static readonly T MinusOne;
-		internal static readonly T Zero;
-		internal static readonly T One;
-		internal static readonly T Two;
+		public static readonly T MinusOne;
+		public static readonly T Zero;
+		public static readonly T One;
+		public static readonly T Two;
 
 		private static Dictionary<ExpressionType, Func<T, T, T>> _operationFunctionDictionary;
 		private static Dictionary<string, Func<T, T>> _unaryFuncDictionary;
@@ -32,7 +32,7 @@ namespace ExtendedArithmetic.Internal
 			_unaryFuncDictionary = new Dictionary<string, Func<T, T>>();
 		}
 
-		internal static Func<T, T> CreateSqrtFunction()
+		public static Func<T, T> CreateSqrtFunction()
 		{
 			if (_unaryFuncDictionary.ContainsKey(nameof(Math.Sqrt)))
 			{
@@ -62,7 +62,7 @@ namespace ExtendedArithmetic.Internal
 			return result;
 		}
 
-		internal static Func<T, T> CreateAbsFunction()
+		public static Func<T, T> CreateAbsFunction()
 		{
 			if (_unaryFuncDictionary.ContainsKey(nameof(Math.Abs)))
 			{
@@ -109,7 +109,7 @@ namespace ExtendedArithmetic.Internal
 			return result;
 		}
 
-		internal static Func<T, T> CreateTruncateFunction()
+		public static Func<T, T> CreateTruncateFunction()
 		{
 			if (_unaryFuncDictionary.ContainsKey(nameof(Math.Truncate)))
 			{
@@ -164,7 +164,7 @@ namespace ExtendedArithmetic.Internal
 			return result;
 		}
 
-		internal static Func<T, T, T> CreateGenericBinaryFunction(ExpressionType operationType)
+		public static Func<T, T, T> CreateGenericBinaryFunction(ExpressionType operationType)
 		{
 			if (_operationFunctionDictionary.ContainsKey(operationType))
 			{
@@ -209,7 +209,7 @@ namespace ExtendedArithmetic.Internal
 			return result;
 		}
 
-		internal static Func<T, T, T> CreatePowerFunction()
+		public static Func<T, T, T> CreatePowerFunction()
 		{
 			if (_operationFunctionDictionary.ContainsKey(ExpressionType.Power))
 			{
@@ -271,7 +271,7 @@ namespace ExtendedArithmetic.Internal
 			return result;
 		}
 
-		internal static Func<T, int, T> CreatePowerIntFunction()
+		public static Func<T, int, T> CreatePowerIntFunction()
 		{
 			Type typeFromHandle = typeof(T);
 
@@ -319,7 +319,7 @@ namespace ExtendedArithmetic.Internal
 			return result;
 		}
 
-		internal static Func<T, T, bool> CreateGenericEqualityOperator(ExpressionType operationType)
+		public static Func<T, T, bool> CreateGenericEqualityOperator(ExpressionType operationType)
 		{
 			ParameterExpression left = Expression.Parameter(typeof(T), "left");
 			ParameterExpression right = Expression.Parameter(typeof(T), "right");
@@ -341,7 +341,7 @@ namespace ExtendedArithmetic.Internal
 			return result;
 		}
 
-		internal static Func<T, int, T, T> CreateModPowFunction()
+		public static Func<T, int, T, T> CreateModPowFunction()
 		{
 			Type typeFromHandle = typeof(T);
 
@@ -359,7 +359,7 @@ namespace ExtendedArithmetic.Internal
 			return result;
 		}
 
-		internal static Func<T, double, T> CreateLogFunction()
+		public static Func<T, double, T> CreateLogFunction()
 		{
 			MethodInfo[] methods = null;
 
@@ -394,7 +394,7 @@ namespace ExtendedArithmetic.Internal
 			return result;
 		}
 
-		internal static Func<string, T> CreateParseFunction()
+		public static Func<string, T> CreateParseFunction()
 		{
 			Type typeFromHandle = typeof(T);
 
