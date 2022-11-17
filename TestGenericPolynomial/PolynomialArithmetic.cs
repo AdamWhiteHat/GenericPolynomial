@@ -1,6 +1,7 @@
 ﻿using ExtendedArithmetic;
 using System.Collections.Generic;
 using NUnit.Framework;
+using System.Linq;
 
 namespace TestGenericPolynomial
 {
@@ -285,6 +286,62 @@ namespace TestGenericPolynomial
 			TestContext.WriteLine($"Passed:   {expected == actual}");
 
 			Assert.AreEqual(expected, actual);
+		}
+
+		[Test]
+		[TestCase("288*X^2 + 36*X - 2", "96*X^3 + 18*X^2 - 2*X")]
+		[TestCase("144*X + 36", "72*X^2 + 36*X")]
+		[TestCase("78*X^2 - 1", "26*X^3 - X")]
+		public virtual void TestIndefiniteIntegral(string polynomial, string expected)
+		{
+			Polynomial<T> poly = Polynomial<T>.Parse(polynomial);
+
+			Polynomial<T> result = Polynomial<T>.IndefiniteIntegral(poly, GenericArithmetic<T>.Zero);
+
+			TestContext.WriteLine($"∫ {poly} dX");
+			TestContext.WriteLine("");
+			TestContext.WriteLine($"Result   = {result}");
+			TestContext.WriteLine($"Expecting: {expected}");
+
+			Assert.AreEqual(expected, result.ToString());
+		}
+
+		[Test]
+		[TestCase("X^4 + 2*X^3 + 3*X^2", "3*X^2 + 2*X + 1")]
+		[TestCase("5*X^4 + 4*X^3 + 3*X^2 + 2*X + 1", "X^4 + 2*X^3 + 3*X^2 + 4*X + 5")]
+		public virtual void TestReciprocalPolynomial(string polynomial, string expected)
+		{
+			Polynomial<T> poly = Polynomial<T>.Parse(polynomial);
+
+			Polynomial<T> result = Polynomial<T>.GetReciprocalPolynomial(poly);
+
+			string actual = result.ToString();
+
+			TestContext.WriteLine($"({polynomial})^-1 = {actual}");
+			Assert.AreEqual(expected, actual);
+		}
+
+		[Test]
+		[TestCase("X^4 - 19*X^3 + 29*X^2 + 571*X + 858", new string[] { "X - 11", "X - 13", "X + 2", "X + 3" })]
+		[TestCase("2*X^4 + X^3 - 19*X^2 - 9*X + 9", new string[] { "2*X - 1", "X - 3", "X + 1", "X + 3" })]
+		[TestCase("84*X^3 + 36*X^2 + 12*X + 24", new string[] { "12", "7*X^3 + 3*X^2 + X + 2" })]
+		public virtual void TestFactor(string polynomial, string[] expected)
+		{
+			Polynomial<T> toFactor = Polynomial<T>.Parse(polynomial);
+
+			List<string> results = Polynomial<T>.Factor(toFactor).Select(poly => poly.ToString()).ToList();
+
+			TestContext.WriteLine("");
+			TestContext.WriteLine($"Result   = ({string.Join(")(", results.Select(p => p.ToString()))})");
+			TestContext.WriteLine($"Expecting: ");
+			TestContext.WriteLine(string.Join("\n", expected));
+
+			List<Polynomial<T>> expectedFactors = expected.Select(s => Polynomial<T>.Parse(s)).ToList();
+
+			foreach (string factor in expected)
+			{
+				Assert.IsTrue(results.Contains(factor), $"Results didn't contain expected factor: {factor.ToString()}\n\nContained instead:\n{string.Join("\n", results.Select(p => p.ToString()))}", null);
+			}
 		}
 
 		/*

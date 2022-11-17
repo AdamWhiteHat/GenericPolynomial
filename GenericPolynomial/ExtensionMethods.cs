@@ -75,11 +75,11 @@ namespace ExtendedArithmetic
 				p = n * n;
 
 				if (source < p)
-					high = n;
+				{ high = n; }
 				else if (source > p)
-					low = n;
+				{ low = n; }
 				else
-					break;
+				{ break; }
 			}
 			return source == p ? n : low;
 		}

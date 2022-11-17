@@ -345,6 +345,177 @@ namespace ExtendedArithmetic
 			return result;
 		}
 
+		/// <summary>
+		/// Finds the indefinite integral of the polynomial.
+		/// </summary>
+		/// <param name="c">The constant.</param>
+		/// <returns>The indefinite integral.</returns>
+		public static Polynomial<T> IndefiniteIntegral(Polynomial<T> poly, T c)
+		{
+			List<Term<T>> terms = new List<Term<T>>();
+			terms.Add(new Term<T>(c, 0));
+			T[] coefficients = new T[poly.Degree + 2];
+			coefficients[0] = c;
+
+			for (int i = 0; i <= poly.Degree; i++)
+			{
+				T quotient = GenericArithmetic<T>.Divide(poly[i], GenericArithmetic<T>.Convert(i + 1));
+				coefficients[i + 1] = quotient;
+				terms.Add(new Term<T>(quotient, i + 1));
+			}
+
+			return new Polynomial<T>(terms.ToArray());
+		}
+
+		/// <summary>
+		/// Gets the reciprocal polynomial.
+		/// </summary>
+		public static Polynomial<T> GetReciprocalPolynomial(Polynomial<T> polynomial)
+		{
+			List<Term<T>> termsList = new List<Term<T>>();
+
+			int exponentIndex = 0;
+			while (exponentIndex <= polynomial.Degree)
+			{
+				Term<T> term = polynomial.Terms.Where(trm => trm.Exponent == exponentIndex).FirstOrDefault();
+				if (term == null)
+				{
+					term = new Term<T>(GenericArithmetic<T>.Zero, exponentIndex);
+				}
+				termsList.Add(term);
+				exponentIndex++;
+			}
+
+			List<Term<T>> newTerms = new List<Term<T>>();
+
+			exponentIndex = 0;
+			int coefficientIndex = polynomial.Degree;
+			while (coefficientIndex >= 0)
+			{
+				var coeff = polynomial[coefficientIndex];
+				var exp = termsList[exponentIndex].Exponent;
+
+				Term<T> term = new Term<T>(coeff, exp);
+				newTerms.Add(term);
+
+				exponentIndex++;
+				coefficientIndex--;
+			}
+
+			return new Polynomial<T>(newTerms.ToArray());
+		}
+
+		/// <summary>
+		/// Factors the specified polynomial.
+		/// </summary>
+		public static List<Polynomial<T>> Factor(Polynomial<T> polynomial)
+		{
+			List<Polynomial<T>> results = new List<Polynomial<T>>();
+
+			Polynomial<T> remainingPoly = polynomial.Clone();
+
+			IEnumerable<T> coefficients = remainingPoly.Terms.Select(trm => trm.CoEfficient);
+			T gcd = coefficients.Aggregate(GenericArithmetic<T>.GCD);
+
+			if (GenericArithmetic<T>.GreaterThan(gcd, GenericArithmetic<T>.One))
+			{
+				Polynomial<T> gcdPoly = Parse(gcd.ToString());
+				results.Add(gcdPoly);
+				remainingPoly = Divide(remainingPoly, gcdPoly);
+			}
+
+			T leading = remainingPoly.Terms.Last().CoEfficient;
+			T constant = remainingPoly.Terms.First().CoEfficient;
+
+			// +/- constant
+			//     --------
+			//	   leading
+
+			if (GenericArithmetic<T>.Equal(leading, GenericArithmetic<T>.Zero))
+			{
+				throw new Exception("Leading coefficient is zero!?");
+			}
+
+			List<T> constantDivisors = GetAllDivisors(constant);
+			List<T> leadingDivisors = GetAllDivisors(leading);
+
+			constantDivisors.AddRange(constantDivisors.ToList().Select(n => GenericArithmetic<T>.Negate(n)));
+			if (leadingDivisors.Count > 1)
+			{
+				leadingDivisors.AddRange(leadingDivisors.ToList().Select(n => GenericArithmetic<T>.Negate(n)));
+			}
+
+			foreach (T denominator in leadingDivisors)
+			{
+				foreach (T numerator in constantDivisors)
+				{
+					T rational = GenericArithmetic<T>.Divide(numerator, denominator);
+
+					if (GenericArithmetic<T>.Equal(remainingPoly.Evaluate(rational), GenericArithmetic<T>.Zero))
+					{
+						T negatedNumerator = GenericArithmetic<T>.Negate(numerator);
+
+						Term<T>[] terms = new Term<T>[]
+						{
+							new Term<T>(denominator,1),
+							new Term<T>(negatedNumerator, 0)
+						};
+
+						Polynomial<T> factor = new Polynomial<T>(terms);
+						results.Add(factor);
+
+						remainingPoly = Divide(remainingPoly, factor);
+
+						if (remainingPoly == Polynomial<T>.One)
+						{
+							return results;
+						}
+					}
+				}
+			}
+
+			if (remainingPoly != Polynomial<T>.One)
+			{
+				results.Add(remainingPoly);
+			}
+
+			return results;
+		}
+
+		private static List<T> GetAllDivisors(T value)
+		{
+			T minusOne = GenericArithmetic<T>.Negate(GenericArithmetic<T>.One);
+			T n = value;
+
+			if (GenericArithmetic<T>.Equal(GenericArithmetic<T>.Abs(n), GenericArithmetic<T>.One))
+			{
+				return new List<T> { n };
+			}
+
+			List<T> results = new List<T>();
+			if (GenericArithmetic<T>.Equal(GenericArithmetic<T>.Sign(n), minusOne))
+			{
+				results.Add(minusOne);
+				n = GenericArithmetic<T>.Multiply(n, minusOne);
+			}
+			for (T i = GenericArithmetic<T>.One; GenericArithmetic<T>.LessThan(GenericArithmetic<T>.Multiply(i, i), n); i = GenericArithmetic<T>.Add(i, GenericArithmetic<T>.One))
+			{
+				if (GenericArithmetic<T>.Equal(GenericArithmetic<T>.Modulo(n, i), GenericArithmetic<T>.Zero))
+				{
+					results.Add(i);
+				}
+			}
+			for (T i = GenericArithmetic<T>.SquareRoot(n); GenericArithmetic<T>.GreaterThanOrEqual(i, GenericArithmetic<T>.One); i = GenericArithmetic<T>.Subtract(i, GenericArithmetic<T>.One))
+			{
+				if (GenericArithmetic<T>.Equal(GenericArithmetic<T>.Modulo(n, i), GenericArithmetic<T>.Zero))
+				{
+					results.Add(GenericArithmetic<T>.Divide(n, i));
+				}
+			}
+
+			return results;
+		}
+
 		public static Polynomial<T> MakeMonic(Polynomial<T> polynomial, T polynomialBase)
 		{
 			int deg = polynomial.Degree;

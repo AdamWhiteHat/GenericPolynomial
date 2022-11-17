@@ -153,5 +153,17 @@ namespace TestGenericPolynomial
 		{
 			base.MakeMonic(polynomial, polynomialBase, expected);
 		}
+
+		public override void TestIndefiniteIntegral(string polynomial, string expected)
+		{
+		}
+
+		public override void TestReciprocalPolynomial(string polynomial, string expected)
+		{
+		}
+
+		public override void TestFactor(string polynomial, string[] expected)
+		{
+		}
 	}
 }
