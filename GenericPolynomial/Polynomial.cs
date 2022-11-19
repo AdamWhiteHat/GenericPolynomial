@@ -493,7 +493,7 @@ namespace ExtendedArithmetic
 			}
 
 			List<T> results = new List<T>();
-			if (GenericArithmetic<T>.Equal(GenericArithmetic<T>.Sign(n), minusOne))
+			if (GenericArithmetic<T>.Sign(n) == -1)
 			{
 				results.Add(minusOne);
 				n = GenericArithmetic<T>.Multiply(n, minusOne);

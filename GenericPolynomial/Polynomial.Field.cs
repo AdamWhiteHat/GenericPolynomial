@@ -73,7 +73,7 @@ namespace ExtendedArithmetic
 					T remainder = GenericArithmetic<T>.Zero;
 					GenericArithmetic<T>.DivRem(term.CoEfficient, mod, out remainder);
 
-					if (GenericArithmetic<T>.Equal(GenericArithmetic<T>.Sign(remainder), GenericArithmetic<T>.MinusOne))
+					if (GenericArithmetic<T>.Sign(remainder) == -1)
 					{
 						remainder = GenericArithmetic<T>.Add(remainder, mod);
 					}
@@ -82,7 +82,7 @@ namespace ExtendedArithmetic
 				}
 
 				// Recalculate the degree
-				Term<T>[] termArray = terms.SkipWhile(t => GenericArithmetic<T>.Equal(GenericArithmetic<T>.Sign(t.CoEfficient), GenericArithmetic<T>.Zero)).ToArray();
+				Term<T>[] termArray = terms.SkipWhile(t => GenericArithmetic<T>.Sign(t.CoEfficient) == 0).ToArray();
 				if (!termArray.Any())
 				{
 					termArray = Term<T>.GetTerms(new T[] { GenericArithmetic<T>.Zero });
@@ -156,7 +156,7 @@ namespace ExtendedArithmetic
 					if (GenericArithmetic<T>.NotEqual(newCoefficient, GenericArithmetic<T>.Zero))
 					{
 						newCoefficient = GenericArithmetic<T>.ModPow(newCoefficient, exponent, mod);
-						if (GenericArithmetic<T>.Equal(GenericArithmetic<T>.Sign(newCoefficient), GenericArithmetic<T>.MinusOne))
+						if (GenericArithmetic<T>.Sign(newCoefficient) == -1)
 						{
 							throw new Exception("T.ModPow returned negative number");
 						}
