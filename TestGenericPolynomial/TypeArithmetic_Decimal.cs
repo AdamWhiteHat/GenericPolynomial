@@ -8,9 +8,9 @@ namespace TestGenericPolynomial
 	{
 		[Test]
 		[TestCase("2981", "8.00001409367807")]
-		public override void Ln(string argument, string expected)
+		public override void Ln(string argument, object expected)
 		{
-			base.Ln(argument, expected);
+			base.Ln(argument, decimal.Parse(expected.ToString()));
 		}
 	}
 }

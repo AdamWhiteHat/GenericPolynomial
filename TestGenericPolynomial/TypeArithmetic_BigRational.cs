@@ -12,7 +12,7 @@ namespace TestGenericPolynomial
 			//base.Logarithm(argument, logBase, expected);
 		}
 
-		public override void Ln(string argument, string expected)
+		public override void Ln(string argument, object expected)
 		{
 			//base.Ln(argument, expected);
 		}

@@ -20,6 +20,10 @@ namespace TestGenericPolynomial
 		[TestCase("32766", "31", "3", "(1.099862374542647, 0)*X^3 + (3.637978807091713E-12, 0)")]
 		public override void MakeCoefficientsSmaller(string value, string polybase, string forceDegree, string expected)
 		{
+			if (!Helpers.TargetFramework.IsNetCore3_1OrGreater())
+			{
+				expected = "(1.09986237454265, 0)*X^3 + (3.63797880709171E-12, 0)";
+			}
 			base.MakeCoefficientsSmaller(value, polybase, forceDegree, expected);
 		}
 
@@ -143,6 +147,7 @@ namespace TestGenericPolynomial
 		[TestCase("X^2 + 1", "0", "(1, 0)")]
 		public override void Evaluate(string polynomial, string indeterminateValue, string expected)
 		{
+			expected = Helpers.Complex.AutoConvertStringFormat(expected);
 			base.Evaluate(polynomial, indeterminateValue, expected);
 		}
 
@@ -159,10 +164,6 @@ namespace TestGenericPolynomial
 		}
 
 		public override void TestReciprocalPolynomial(string polynomial, string expected)
-		{
-		}
-
-		public override void TestFactor(string polynomial, string[] expected)
 		{
 		}
 	}

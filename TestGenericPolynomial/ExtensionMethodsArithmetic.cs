@@ -220,7 +220,11 @@ namespace TestGenericPolynomial
             Complex result = HelperMethods.Parse(expected);
             string actual = result.ToString();
 
-            TestContext.WriteLine($"Complex.Parse({expected}) = {result}");
+			actual = actual.Replace("<", "(");
+			actual = actual.Replace(">", ")");
+			actual = actual.Replace(";", ",");
+
+			TestContext.WriteLine($"Complex.Parse({expected}) = {result}");
             TestContext.WriteLine("");
             TestContext.WriteLine($"Expected: {expected}");
             TestContext.WriteLine($"Actual:   {actual}");

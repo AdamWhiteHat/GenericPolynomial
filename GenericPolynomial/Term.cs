@@ -53,7 +53,7 @@ namespace ExtendedArithmetic
 
 		public T Evaluate(T indeterminate)
 		{
-			T placeValue = GenericArithmetic<T>.Power(indeterminate, Exponent);
+			T placeValue = GenericArithmetic<T>.PowerInt(@base: indeterminate, exponent: Exponent);
 			T result = GenericArithmetic<T>.Multiply(CoEfficient, placeValue);
 			return result;
 		}
@@ -108,6 +108,16 @@ namespace ExtendedArithmetic
 				coefficientString = GenericArithmetic<T>.ToString(CoEfficient);
 				displayMuliplicationSymbol = displayExponentString;
 			}
+
+			coefficientString = coefficientString.Replace("<-0;", "<0;");
+			coefficientString = coefficientString.Replace("; -0>", "; 0>");
+
+			coefficientString = coefficientString.Replace("<", "(");
+			coefficientString = coefficientString.Replace(">", ")");
+			coefficientString = coefficientString.Replace(";", ",");
+
+			coefficientString = coefficientString.Replace("(-0,", "(0,");
+			coefficientString = coefficientString.Replace(", -0)", ", 0)");
 
 			return $"{coefficientString}{(displayMuliplicationSymbol ? "*" : "")}{exponentString}";
 		}

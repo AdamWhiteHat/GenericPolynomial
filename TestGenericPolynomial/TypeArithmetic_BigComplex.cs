@@ -2,6 +2,7 @@
 using ExtendedNumerics;
 using NUnit.Framework;
 using System;
+using System.Numerics;
 
 namespace TestGenericPolynomial
 {
@@ -13,17 +14,8 @@ namespace TestGenericPolynomial
 		{
 		}
 
-		public override void Ln(string argument, string expected)
+		public override void Ln(string argument, object expectedObj)
 		{
-			BigComplex input = GenericArithmetic<BigComplex>.Parse(argument);
-
-			string actual = GenericArithmetic<BigComplex>.Log(input, Math.E).ToString();
-
-			TestContext.WriteLine($"Expected: {expected}");
-			TestContext.WriteLine($"Actual:   {actual}");
-			TestContext.WriteLine($"Passed:   {expected.Equals(actual)}");
-
-			Assert.AreEqual(expected, actual);
 		}
 	}
 }

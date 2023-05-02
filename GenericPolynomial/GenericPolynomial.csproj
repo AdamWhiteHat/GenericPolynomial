@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net45;net46;net48;netstandard2.1;netcoreapp3.1;net5.0-windows</TargetFrameworks>
-		<Platforms>x64</Platforms>
+		<TargetFrameworks>net45;net46;net48;netcoreapp3.1;netstandard2.1;net5.0;net6.0;net7.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -16,7 +15,7 @@
 		<Company>Adam White</Company>
 		<Copyright>Made by Adam White</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageTags>generics math mathematics polynomials polynomial-arithmetic polynomial symbolic arithmetic arbitrary-precision numerics numbers biginteger legendre-symbol tonelli-shanks gcd modulus square-root csharp</PackageTags>
+		<PackageTags>generics math mathematics polynomials polynomial-arithmetic polynomial symbolic arithmetic arbitrary-precision numerics numbers biginteger legendre-symbol tonelli-shanks gcd modulus square-root extended csharp</PackageTags>
 		<PackageProjectUrl>https://www.nuget.org/packages/ExtendedArithmetic.GenericPolynomial</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/AdamWhiteHat/GenericPolynomial</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
@@ -24,16 +23,26 @@
 		<Version>$([System.DateTime]::Now.ToString("yyyy."$([System.DateTime]::Now.DayOfYear)".HHmm"))</Version>
 		<AssemblyVersion>$([System.DateTime]::Now.ToString("yyyy."$([System.DateTime]::Now.DayOfYear)".HHmm"))</AssemblyVersion>
 		<FileVersion>$([System.DateTime]::Now.ToString("yyyy."$([System.DateTime]::Now.DayOfYear)".HHmm"))</FileVersion>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<Compile Remove="TestGenericPolynomial\**" />
 		<EmbeddedResource Remove="TestGenericPolynomial\**" />
-		<None Remove="TestGenericPolynomial\**" />
+		<None Remove="TestGenericPolynomial\**" />	
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	  <None Include="..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ExtendedArithmetic.GenericArithmetic" Version="2023.122.900" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
 </Project>

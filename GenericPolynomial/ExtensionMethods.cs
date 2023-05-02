@@ -58,89 +58,6 @@ namespace ExtendedArithmetic
 		}
 
 		/// <summary>
-		///  Returns the square root of a BigInteger.
-		/// </summary>
-		public static BigInteger SquareRoot(this BigInteger source)
-		{
-			if (source.IsZero) return new BigInteger(0);
-
-			BigInteger n = new BigInteger(0);
-			BigInteger p = new BigInteger(0);
-			BigInteger low = new BigInteger(0);
-			BigInteger high = BigInteger.Abs(source);
-
-			while (high > low + 1)
-			{
-				n = (high + low) >> 1;
-				p = n * n;
-
-				if (source < p)
-				{ high = n; }
-				else if (source > p)
-				{ low = n; }
-				else
-				{ break; }
-			}
-			return source == p ? n : low;
-		}
-
-		/// <summary>
-		///  Returns the Nth root of a BigInteger.
-		///  The root must be greater than or equal to 1 or value must be a positive integer.
-		/// </summary>
-		public static BigInteger NthRoot(this BigInteger source, int root)
-		{
-			BigInteger remainder;
-			return source.NthRoot(root, out remainder);
-		}
-
-		/// <summary>
-		///  Returns the Nth root of a BigInteger, with optional Remainder.
-		///  The root must be greater than or equal to 1 or value must be a positive integer.
-		/// </summary>
-		public static BigInteger NthRoot(this BigInteger source, int root, out BigInteger remainder)
-		{
-			if (root < 1) throw new Exception("Root must be greater than or equal to 1");
-			if (source.Sign == -1) throw new Exception("Value must be a positive integer");
-
-			if (source == BigInteger.One)
-			{
-				remainder = 0;
-				return BigInteger.One;
-			}
-			if (source == BigInteger.Zero)
-			{
-				remainder = 0;
-				return BigInteger.Zero;
-			}
-			if (root == 1)
-			{
-				remainder = 0;
-				return source.Clone();
-			}
-
-			BigInteger upperbound = source.Clone();
-			BigInteger lowerbound = new BigInteger(0);
-
-			while (true)
-			{
-				BigInteger nval = (upperbound + lowerbound) >> 1;
-				BigInteger tstsq = BigInteger.Pow(nval, root);
-
-				if (tstsq > source) upperbound = nval;
-				if (tstsq < source) lowerbound = nval;
-				if (tstsq == source)
-				{
-					lowerbound = nval;
-					break;
-				}
-				if (lowerbound == upperbound - 1) break;
-			}
-			remainder = source - BigInteger.Pow(lowerbound, root);
-			return lowerbound;
-		}
-
-		/// <summary>
 		/// Efficiently checks if a  BigInteger is a square by examining its properties in base-16.
 		/// </summary>		
 		public static bool IsSquare(this BigInteger source)
@@ -177,7 +94,7 @@ namespace ExtendedArithmetic
 	{
 		/// <summary>
 		/// Gets the product of an IEnumerable collection of BigIntegers.
-		/// </summary>		
+		/// </summary>
 		public static BigInteger Product(this IEnumerable<BigInteger> source)
 		{
 			return source.Aggregate((accumulator, current) => accumulator * current);
@@ -185,18 +102,10 @@ namespace ExtendedArithmetic
 
 		/// <summary>
 		/// Gets the sum of an IEnumerable collection of BigIntegers.
-		/// </summary>		
+		/// </summary>
 		public static BigInteger Sum(this IEnumerable<BigInteger> source)
 		{
 			return source.Aggregate((accumulator, current) => accumulator + current);
-		}
-
-		/// <summary>
-		/// Calculates GCD of all the BigIntegers in a IEnumerable collection.
-		/// </summary>		
-		public static BigInteger GCD(this IEnumerable<BigInteger> source)
-		{
-			return source.Aggregate(BigInteger.GreatestCommonDivisor);
 		}
 	}
 

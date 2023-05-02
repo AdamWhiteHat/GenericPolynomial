@@ -14,9 +14,5 @@ namespace TestGenericPolynomial
 		public override void TestReciprocalPolynomial(string polynomial, string expected)
 		{
 		}
-
-		public override void TestFactor(string polynomial, string[] expected)
-		{
-		}
 	}
 }

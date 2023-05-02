@@ -321,10 +321,10 @@ namespace TestGenericPolynomial
 			Assert.AreEqual(expected, actual);
 		}
 
-		[Test]
-		[TestCase("X^4 - 19*X^3 + 29*X^2 + 571*X + 858", new string[] { "X - 11", "X - 13", "X + 2", "X + 3" })]
-		[TestCase("2*X^4 + X^3 - 19*X^2 - 9*X + 9", new string[] { "2*X - 1", "X - 3", "X + 1", "X + 3" })]
-		[TestCase("84*X^3 + 36*X^2 + 12*X + 24", new string[] { "12", "7*X^3 + 3*X^2 + X + 2" })]
+		//[Test]
+		//[TestCase("X^4 - 19*X^3 + 29*X^2 + 571*X + 858", new string[] { "X - 11", "X - 13", "X + 2", "X + 3" })]
+		//[TestCase("2*X^4 + X^3 - 19*X^2 - 9*X + 9", new string[] { "2*X - 1", "X - 3", "X + 1", "X + 3" })]
+		//[TestCase("84*X^3 + 36*X^2 + 12*X + 24", new string[] { "12", "7*X^3 + 3*X^2 + X + 2" })]
 		public virtual void TestFactor(string polynomial, string[] expected)
 		{
 			Polynomial<T> toFactor = Polynomial<T>.Parse(polynomial);

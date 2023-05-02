@@ -3,7 +3,6 @@ using System.Linq;
 using System.Numerics;
 using System.Collections.Generic;
 using System.Collections;
-using ExtendedArithmetic.Internal;
 
 namespace ExtendedArithmetic
 {
@@ -146,7 +145,7 @@ namespace ExtendedArithmetic
 				return result;
 			}
 
-			public static Polynomial<T> PowMod(Polynomial<T> poly, int exponent, T mod)
+			public static Polynomial<T> PowMod(Polynomial<T> poly, T exponent, T mod)
 			{
 				Polynomial<T> result = poly.Clone();
 

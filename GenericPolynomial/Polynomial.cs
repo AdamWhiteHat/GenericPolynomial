@@ -135,7 +135,7 @@ namespace ExtendedArithmetic
 			List<Term<T>> result = new List<Term<T>>();
 			while (deg >= 0 && GenericArithmetic<T>.GreaterThan(toAdd, GenericArithmetic<T>.Zero))
 			{
-				T placeValue = GenericArithmetic<T>.Power(polynomialBase, deg);
+				T placeValue = GenericArithmetic<T>.PowerInt(@base: polynomialBase, exponent: deg);
 
 				if (GenericArithmetic<T>.Equal(placeValue, GenericArithmetic<T>.One))
 				{
